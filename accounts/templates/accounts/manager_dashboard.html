@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manager Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <a href="{% url 'create_tenant' %}" class="btn btn-success">➕ Add Tenant</a>
+
+</head>
+<body class="bg-light">
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-dark text-white vh-100 p-3">
+            <h4 class="text-center">Manager Panel</h4>
+            <hr class="bg-light">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="#" class="nav-link text-white">🏠 Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">👥 Tenants</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">🏢 Apartments</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">💳 Payments</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">🛠️ Maintenance</a></li>
+            </ul>
+            <hr class="bg-light">
+            <a href="{% url 'logout' %}" class="btn btn-danger w-100">Logout</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+            <h2>Welcome  {{ request.user.username }}</h2>
+            <p class="text-muted">Here’s an overview of your apartment system.</p>
+
+            <!-- Cards Row -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-center shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">👥 Tenants</h5>
+                            <p class="card-text">Manage tenant details</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-center shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">🏢 Apartments</h5>
+                            <p class="card-text">View & assign apartments</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-center shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">💳 Payments</h5>
+                            <p class="card-text">Track rent payments</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-center shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">🛠️ Maintenance</h5>
+                            <p class="card-text">Check requests</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End Main Content -->
+
+    </div>
+</div>
+
+</body>
+</html>

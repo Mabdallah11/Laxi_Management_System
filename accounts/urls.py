@@ -1,0 +1,17 @@
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
+    path("login/manager/", views.manager_login, name="manager_login"),
+    path("login/tenant/", views.tenant_login, name="tenant_login"),
+    path('logout/', views.user_logout, name='logout'),
+    path('manager/dashboard/', views.manager_dashboard, name='manager_dashboard'),
+    path('tenant/dashboard/', views.tenant_dashboard, name='tenant_dashboard'),
+    path('manager/create-tenant/', views.create_tenant, name='create_tenant'),
+
+
+]
+
