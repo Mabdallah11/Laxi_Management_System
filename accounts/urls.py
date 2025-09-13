@@ -9,6 +9,8 @@ urlpatterns = [
     path("login/tenant/", views.tenant_login, name="tenant_login"),
     path('logout/', views.user_logout, name='logout'),
     path('manager/dashboard/', views.manager_dashboard, name='manager_dashboard'),
+    path("manager/maintenance/", views.maintenance_requests, name="maintenance_requests"),
+    path("manager/dashboard/maintenance_requests/", views.maintenance_requests, name="maintenance_requests"),
     path('tenant/dashboard/', views.tenant_dashboard, name='tenant_dashboard'),
     path('manager/create-tenant/', views.create_tenant, name='create_tenant'),
 

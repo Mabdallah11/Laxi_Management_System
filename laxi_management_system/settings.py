@@ -53,10 +53,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'laxi_management_system.urls'
 
+import os 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+           BASE_DIR /  "templates",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
