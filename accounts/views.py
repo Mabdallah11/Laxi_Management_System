@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from .models import MaintenanceRequest
 from django.utils import timezone
+from .models import House
 
 User = get_user_model()
 
@@ -181,3 +182,7 @@ def login_view(request):
 
     # ✅ GET request → render template with request context
     return render(request, "accounts/login.html")
+
+def house_list(request):
+    houses = House.objects.all().order_by('floor', 'number')
+    return render(request, 'accounts/house_list.html', {'houses': houses})

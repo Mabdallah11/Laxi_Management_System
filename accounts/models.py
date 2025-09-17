@@ -54,3 +54,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.role})"
+    
+
+class House(models.Model):
+        number = models.CharField(max_length=10, unique=True)
+        floor = models.IntegerField()
+        description = models.TextField(blank=True, null=True)
+
+        def __str__(self):
+            return f"House {self.number} (Floor {self.floor})"

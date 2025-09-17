@@ -18,7 +18,7 @@
             <ul class="nav flex-column">
                 <li class="nav-item"><a href="#" class="nav-link text-white">🏠 Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white">👥 Tenants</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-white">🏢 Apartments</a></li>
+                <li class="nav-item"><a href="{% url 'house_list' %}" class="nav-link text-white">🏢 Apartments</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white">💳 Payments</a></li>
                 <li class="nav-item"><a href="/accounts/manager/dashboard/maintenance_requests" class="nav-link text-white" class="nav-link text-white">🛠️ Maintenance</a></li>
             </ul>
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <h5 class="card-title">🏢 Apartments</h5>
                             <p class="card-text">View & assign apartments</p>
-                            <a href="#" class="btn btn-primary">View</a>
+                            <a href="{% url 'house_list' %}"  class="btn btn-primary">View</a>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <div class="card-body">
                             <h5 class="card-title">🛠️ Maintenance</h5>
                             <p class="card-text">Check requests</p>
-                            <a href="#" class="btn btn-primary">View</a>
+                            <a href="/accounts/manager/dashboard/maintenance_requests" class="btn btn-primary">View</a>
                         </div>
                     </div>
                 </div>
