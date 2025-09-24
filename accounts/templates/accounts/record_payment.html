@@ -1,0 +1,117 @@
+
+
+{% block title %}Record Payment{% endblock %}
+
+<style>
+    /* Page background */
+    body {
+        background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+    }
+
+    /* Card styling */
+    .payment-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .payment-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Header styling */
+    .payment-header {
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        border-radius: 20px 20px 0 0;
+        padding: 20px;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    /* Labels */
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Inputs */
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 1px solid #007bff33;
+        box-shadow: none;
+        transition: 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Button */
+    .btn-custom {
+        background: linear-gradient(90deg, #28a745, #4cd964);
+        color: white;
+        font-weight: bold;
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 1.1rem;
+        transition: 0.3s;
+        border: none;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(90deg, #218838, #3cb371);
+        transform: scale(1.02);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="payment-card">
+        <div class="payment-header">
+            💳 Record Service Charge Payment
+        </div>
+
+        <div class="p-4">
+            <form method="POST" class="row g-4">
+                {% csrf_token %}
+
+                <!-- Lease Selection -->
+                <div class="col-md-6">
+                    <label class="form-label">Select Lease:</label>
+                    <select name="lease" class="form-select" required>
+                        {% for lease in leases %}
+                        <option value="{{ lease.id }}">
+                            {{ lease.tenant.username }} → House {{ lease.house.number }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Amount -->
+                <div class="col-md-6">
+                    <label class="form-label">Amount (KES):</label>
+                    <input type="number" step="0.01" name="amount" 
+                           class="form-control" placeholder="Enter amount" required>
+                </div>
+
+                <!-- Payment Date -->
+                <div class="col-md-6">
+                    <label class="form-label">Payment Date:</label>
+                    <input type="date" name="payment_date" class="form-control">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-custom w-100">
+                        Record Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

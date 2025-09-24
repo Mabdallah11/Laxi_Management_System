@@ -45,7 +45,7 @@
     <div class="sidebar">
         <h3>Tenant Panel</h3>
         <a href="#">🏠 Dashboard</a>
-        <a href="#">💳 Pay Rent</a>
+        <a href="{% url 'tenant_service_charges' %}" class="btn btn-info">💳 View Service Charges</a>
         <a href="#">🧾 My Invoices</a>
         <a href="#">🔧 Maintenance</a>
         <a href="{% url 'logout' %}">🚪 Logout</a>

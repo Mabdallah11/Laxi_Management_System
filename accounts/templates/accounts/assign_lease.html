@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Assign Lease (Service Charge)</h2>
+
+    <div class="card shadow-sm p-4">
+        <form method="POST" class="row g-3">
+            {% csrf_token %}
+
+            <div class="col-md-6">
+                <label class="form-label">Select Tenant:</label>
+                <select name="tenant" class="form-select" required>
+                    {% for tenant in tenants %}
+                    <option value="{{ tenant.id }}">{{ tenant.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Select House:</label>
+                <select name="house" class="form-select" required>
+                    {% for house in houses %}
+                    <option value="{{ house.id }}">House {{ house.number }} (Floor {{ house.floor }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Service Charge (per month):</label>
+                <input type="number" step="0.01" name="service_charge" class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Assign Lease</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

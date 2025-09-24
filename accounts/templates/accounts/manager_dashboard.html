@@ -19,6 +19,18 @@
                 <li class="nav-item"><a href="#" class="nav-link text-white">🏠 Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white">👥 Tenants</a></li>
                 <li class="nav-item"><a href="{% url 'house_list' %}" class="nav-link text-white">🏢 Apartments</a></li>
+                
+                <td>
+                    {% if house.id %}
+                        <a href="{% url 'assign_lease' house.id %}" class="btn btn-sm btn-success"> 
+                            Assign Lease
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Invalid House</span>
+                    {% endif %}
+                </td>
+
+                <li class="nav-item"><a href="{% url 'record_payment' %}">💳 Record Payment</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white">💳 Payments</a></li>
                 <li class="nav-item"><a href="/accounts/manager/dashboard/maintenance_requests" class="nav-link text-white" class="nav-link text-white">🛠️ Maintenance</a></li>
             </ul>

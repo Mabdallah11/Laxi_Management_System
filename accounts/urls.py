@@ -13,8 +13,10 @@ urlpatterns = [
     path('houses/', views.house_list, name='house_list'),
     path("manager/dashboard/maintenance_requests/", views.maintenance_requests, name="maintenance_requests"),
     path('tenant/dashboard/', views.tenant_dashboard, name='tenant_dashboard'),
+    path("tenant/service-charges/", views.tenant_service_charges, name="tenant_service_charges"),
     path('manager/create-tenant/', views.create_tenant, name='create_tenant'),
-
+    path("record-payment/", views.record_payment, name="record_payment"),
+    path("manager/lease/<int:house_id>/", views.assign_lease, name="assign_lease"),
 
 ]
 

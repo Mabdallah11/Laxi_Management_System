@@ -63,3 +63,21 @@ class House(models.Model):
 
         def __str__(self):
             return f"House {self.number} (Floor {self.floor})"
+
+class Lease(models.Model):
+    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="leases")
+    house = models.OneToOneField(House, on_delete=models.CASCADE, related_name="lease")  # 1 house = 1 tenant
+    start_date = models.DateField(default=timezone.now)
+    service_charge = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.tenant.username} → House {self.house.number}"
+
+
+class ServiceChargePayment(models.Model):
+    lease = models.ForeignKey(Lease, on_delete=models.CASCADE, related_name="payments")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.lease.tenant.username} paid {self.amount} on {self.payment_date.date()}"

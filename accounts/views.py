@@ -14,6 +14,7 @@ from django.db import models
 from .models import MaintenanceRequest
 from django.utils import timezone
 from .models import House
+from .models import Lease, ServiceChargePayment
 
 User = get_user_model()
 
@@ -131,6 +132,7 @@ def user_logout(request):
 
 @login_required
 def manager_dashboard(request):
+    houses = House.objects.all()
     return render(request, 'accounts/manager_dashboard.html')
 
 @login_required
@@ -186,3 +188,57 @@ def login_view(request):
 def house_list(request):
     houses = House.objects.all().order_by('floor', 'number')
     return render(request, 'accounts/house_list.html', {'houses': houses})
+
+@login_required
+def tenant_service_charges(request):
+    # tenant = logged-in user
+    tenant = request.user  
+
+    # get all leases for this tenant (in case of multiple houses)
+    leases = tenant.leases.select_related("house").prefetch_related("payments")
+
+    return render(request, "accounts/tenant_service_charges.html", {"leases": leases})
+
+def record_payment(request):
+    if request.method == "POST":
+        lease_id = request.POST.get("lease")
+        amount = request.POST.get("amount")
+        payment_date = request.POST.get("payment_date")
+
+        lease = Lease.objects.get(id=lease_id)
+
+        # Use provided date or default to today
+        date = payment_date if payment_date else timezone.now().date()
+
+        ServiceChargePayment.objects.create(
+            lease=lease,
+            amount=amount,
+            payment_date=date
+        )
+        return redirect("record_payment")  # redirect to the same page after saving
+
+    leases = Lease.objects.select_related("tenant", "house").all()
+    return render(request, "accounts/record_payment.html", {"leases": leases})
+
+@login_required
+def assign_lease(request, house_id):
+    house = get_object_or_404(House, id=house_id)
+
+    if request.method == "POST":
+        tenant_id = request.POST.get("tenant")
+        service_charge = request.POST.get("service_charge")
+
+        tenant = get_object_or_404(User, id=tenant_id, role="tenant")
+
+        # Create lease
+        Lease.objects.create(
+            tenant=tenant,
+            house=house,
+            service_charge=service_charge,
+        )
+
+        messages.success(request, f"Lease assigned: {house.number} → {tenant.username}")
+        return redirect("manager_dashboard")
+
+    tenants = User.objects.filter(role="tenant")
+    return render(request, "accounts/assign_lease.html", {"house": house, "tenants": tenants})
