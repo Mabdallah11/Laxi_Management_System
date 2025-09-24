@@ -1,0 +1,41 @@
+
+{% block title %}House {{ house.number }} Details{% endblock %}
+
+
+<div class="container mt-4">
+    <h2>House {{ house.number }} (Floor {{ house.floor }})</h2>
+    <p>{{ house.description }}</p>
+
+    {% if lease %}
+        <h3 class="mt-4">Lease Details</h3>
+        <ul>
+            <li><strong>Tenant:</strong> {{ lease.tenant.username }}</li>
+            <li><strong>Start Date:</strong> {{ lease.start_date }}</li>
+        </ul>
+
+        <h3 class="mt-4">Service Charge Payments</h3>
+        {% if payments %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                        <tr>
+                            <td>KES {{ payment.amount }}</td>
+                            <td>{{ payment.payment_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No payments recorded yet.</p>
+        {% endif %}
+    {% else %}
+        <p><em>This house has no lease assigned yet.</em></p>
+    {% endif %}
+</div>
+

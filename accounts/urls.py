@@ -17,6 +17,7 @@ urlpatterns = [
     path('manager/create-tenant/', views.create_tenant, name='create_tenant'),
     path("record-payment/", views.record_payment, name="record_payment"),
     path("manager/lease/<int:house_id>/", views.assign_lease, name="assign_lease"),
+    path("houses/<int:house_id>/", views.house_detail, name="house_detail"),
 
 ]
 

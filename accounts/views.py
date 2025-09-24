@@ -15,6 +15,8 @@ from .models import MaintenanceRequest
 from django.utils import timezone
 from .models import House
 from .models import Lease, ServiceChargePayment
+from django.shortcuts import render, get_object_or_404
+
 
 User = get_user_model()
 
@@ -242,3 +244,15 @@ def assign_lease(request, house_id):
 
     tenants = User.objects.filter(role="tenant")
     return render(request, "accounts/assign_lease.html", {"house": house, "tenants": tenants})
+
+def house_detail(request, house_id):
+    house = get_object_or_404(House, id=house_id)
+    lease = Lease.objects.filter(house=house).first()
+    payments = ServiceChargePayment.objects.filter(lease=lease) if lease else []
+
+    context = {
+        "house": house,
+        "lease": lease,
+        "payments": payments,
+    }
+    return render(request, "accounts/house_detail.html", context)

@@ -48,19 +48,19 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Apartment Houses</h1>
-        <div class="house-grid">
-            {% for house in houses %}
-                <div class="house-card">
-                    <div class="house-number">House {{ house.number }}</div>
-                    <div class="house-floor">Floor {{ house.floor }}</div>
-                    {% if house.description %}
-                        <p>{{ house.description }}</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+ <div class="house-grid">
+    {% for house in houses %}
+        <div class="house-card">
+            <a href="{% url 'house_detail' house.id %}" style="text-decoration: none; color: inherit;">
+                <div class="house-number">House {{ house.number }}</div>
+                <div class="house-floor">Floor {{ house.floor }}</div>
+                {% if house.description %}
+                    <p>{{ house.description }}</p>
+                {% endif %}
+            </a>
         </div>
-    </div>
+    {% endfor %}
+</div>
+
 </body>
 </html>

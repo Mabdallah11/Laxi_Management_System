@@ -65,8 +65,8 @@ class House(models.Model):
             return f"House {self.number} (Floor {self.floor})"
 
 class Lease(models.Model):
-    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="leases")
-    house = models.OneToOneField(House, on_delete=models.CASCADE, related_name="lease")  # 1 house = 1 tenant
+    tenant = models.ForeignKey(User, on_delete=models.CASCADE)   # The tenant renting
+    house = models.ForeignKey(House, on_delete=models.CASCADE)   # The house being leased
     start_date = models.DateField(default=timezone.now)
     service_charge = models.DecimalField(max_digits=10, decimal_places=2)
 
