@@ -18,6 +18,9 @@ urlpatterns = [
     path("record-payment/", views.record_payment, name="record_payment"),
     path("manager/lease/<int:house_id>/", views.assign_lease, name="assign_lease"),
     path("houses/<int:house_id>/", views.house_detail, name="house_detail"),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('manage-tenants/', views.manage_tenants, name='manage_tenants'),
+
 
 ]
 

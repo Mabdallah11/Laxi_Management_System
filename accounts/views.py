@@ -16,6 +16,7 @@ from django.utils import timezone
 from .models import House
 from .models import Lease, ServiceChargePayment
 from django.shortcuts import render, get_object_or_404
+from .forms import ProfileUpdateForm
 
 
 User = get_user_model()
@@ -121,11 +122,6 @@ def delete_maintenance_request(request, request_id):
 
 
 
-def manager_login(request):
-    return user_login(request, role="manager")
-
-def tenant_login(request):
-    return user_login(request, role="tenant")
 
 def user_logout(request):
     logout(request)
@@ -162,6 +158,13 @@ def create_tenant(request):
     else:
         form = TenantCreationForm()
     return render(request, 'accounts/create_tenant.html', {'form': form})
+
+
+def manager_login(request):
+    return user_login(request, role="manager")
+
+def tenant_login(request):
+    return user_login(request, role="tenant")
 
 
 def login_view(request):
@@ -256,3 +259,39 @@ def house_detail(request, house_id):
         "payments": payments,
     }
     return render(request, "accounts/house_detail.html", context)
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('tenant_dashboard')  # or use your own dashboard URL
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'accounts/edit_profile.html', {'form': form})
+
+
+@login_required
+def manage_tenants(request):
+    # Get all tenants
+    tenants = User.objects.filter(role="tenant")
+
+    tenant_data = []
+    for tenant in tenants:
+        lease = Lease.objects.filter(tenant=tenant).select_related("house").first()
+
+        tenant_data.append({
+            "username": tenant.username,
+            "email": tenant.email,
+            "phone": getattr(tenant, "phone", "N/A"),  # safe fallback
+            "house": lease.house.number if lease else "Not Assigned",
+            "floor": lease.house.floor if lease else "Not Assigned",
+            "service_charge": lease.service_charge if lease else "Not Assigned",
+        })
+
+    return render(request, "accounts/manage_tenants.html", {"tenant_data": tenant_data})
+
