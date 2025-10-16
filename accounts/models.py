@@ -3,19 +3,20 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
+
 class MaintenanceRequest(models.Model):
     PRIORITY_CHOICES = [
         ('low', 'Low'),
         ('medium', 'Medium'),
         ('high', 'High'),
     ]
-    
+
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
     ]
-    
+
     request_id = models.CharField(max_length=20, unique=True, blank=True)
     tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='maintenance_requests')
     unit = models.CharField(max_length=50)
@@ -23,13 +24,13 @@ class MaintenanceRequest(models.Model):
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
     additional_notes = models.TextField(blank=True)
+    attachment = models.FileField(upload_to='maintenance_images/', null=True, blank=True)# ✅ NEW
     date_created = models.DateTimeField(default=timezone.now)
     date_completed = models.DateTimeField(null=True, blank=True)
     assigned_to = models.CharField(max_length=100, blank=True)
-    
+
     def save(self, *args, **kwargs):
         if not self.request_id:
-            # Auto-generate request ID
             last_request = MaintenanceRequest.objects.all().order_by('id').last()
             if last_request:
                 last_id = int(last_request.request_id[3:])
@@ -37,12 +38,13 @@ class MaintenanceRequest(models.Model):
             else:
                 self.request_id = 'MR001'
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return f"{self.request_id} - {self.tenant.username} - {self.issue_description[:50]}"
-    
+
     class Meta:
         ordering = ['-date_created']
+
 
 class User(AbstractUser):
     ROLE_CHOICES = (
@@ -71,6 +73,20 @@ class Lease(models.Model):
 
     def __str__(self):
         return f"{self.tenant.username} → House {self.house.number}"
+
+
+
+class GeneralMaintenance(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=[
+        ('ongoing', 'Ongoing'),
+        ('completed', 'Completed'),
+    ], default='completed')
+    attachment = models.FileField(upload_to='maintenance_docs/', null=True, blank=True)  # Optional: upload receipts, photos
+
 
 
 class ServiceChargePayment(models.Model):

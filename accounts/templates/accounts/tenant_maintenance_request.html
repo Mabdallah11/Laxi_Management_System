@@ -3,156 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Maintenance Request - Laxi Management System</title>
-    
+    <title>Tenant Maintenance Requests - Laxi Management</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-building me-2"></i>
-                Laxi Management
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tenant_dashboard' %}"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'create_maintenance_request' %}"><i class="fas fa-tools me-1"></i>New Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user me-1"></i>Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
-                    </li>
-                </ul>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="fas fa-building me-2"></i>Laxi Management</a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tenant_dashboard' %}"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#"><i class="fas fa-tools me-1"></i>Maintenance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Page Header -->
+    <div class="text-center mb-4">
+        <h2><i class="fas fa-tools text-primary me-2"></i>Maintenance Requests</h2>
+        <p class="text-muted">Submit a new request and view your active or completed requests below.</p>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Tenant Info -->
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0"><i class="fas fa-user me-2"></i>Tenant Information</h5>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <!-- Header -->
-                <div class="text-center mb-4">
-                    <h2><i class="fas fa-tools text-primary me-2"></i>Submit Maintenance Request</h2>
-                    <p class="text-muted">Report any maintenance issues in your unit</p>
-                </div>
-
-                <!-- Tenant Info Card -->
-                <div class="card mb-4">
-                    <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="fas fa-user me-2"></i>Tenant Information</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <strong>Name:</strong> {{ tenant.user.get_full_name }}
-                            </div>
-                            <div class="col-md-6">
-                                <strong>Unit:</strong> {{ tenant.unit_number }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Request Form -->
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Maintenance Request Details</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Messages -->
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-
-                        <form method="post">
-                            {% csrf_token %}
-                            
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-exclamation-circle me-1"></i>Issue Title *</label>
-                                {{ form.title }}
-                                {% if form.title.errors %}
-                                    <div class="text-danger small">{{ form.title.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label"><i class="fas fa-flag me-1"></i>Priority Level *</label>
-                                    {{ form.priority }}
-                                    <div class="form-text">
-                                        <small>
-                                            <strong>High:</strong> Safety issues, no water/electricity<br>
-                                            <strong>Medium:</strong> Appliances not working, leaks<br>
-                                            <strong>Low:</strong> Minor repairs, cosmetic issues
-                                        </small>
-                                    </div>
-                                    {% if form.priority.errors %}
-                                        <div class="text-danger small">{{ form.priority.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-file-text me-1"></i>Detailed Description *</label>
-                                {{ form.description }}
-                                <div class="form-text">Please provide as much detail as possible about the issue, including location and when it started.</div>
-                                {% if form.description.errors %}
-                                    <div class="text-danger small">{{ form.description.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label"><i class="fas fa-sticky-note me-1"></i>Additional Notes</label>
-                                {{ form.additional_notes }}
-                                <div class="form-text">Any additional information, preferred time for repair, special instructions, etc.</div>
-                                {% if form.additional_notes.errors %}
-                                    <div class="text-danger small">{{ form.additional_notes.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Important Notice -->
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <strong>Important:</strong> For emergency repairs (gas leaks, electrical hazards, flooding), 
-                                please call our emergency line: <strong>(555) 123-4567</strong>
-                            </div>
-
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="{% url 'tenant_dashboard' %}" class="btn btn-secondary me-md-2">
-                                    <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane me-1"></i>Submit Request
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><strong>Name:</strong> {{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="col-md-6"><strong>Unit:</strong> {{ request.user.unit|default:"N/A" }}</div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Submit New Maintenance Request -->
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Submit a New Request</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'maintenance_requests' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-exclamation-circle me-1"></i>Issue Description *</label>
+                    <textarea name="issue_description" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-flag me-1"></i>Priority *</label>
+                    <select name="priority" class="form-select" required>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-camera me-1"></i>Upload Image (optional)</label>
+                    <input type="file" name="image" class="form-control" accept="image/*" capture="camera">
+                    <small class="text-muted">You can take a photo directly from your phone.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-sticky-note me-1"></i>Additional Notes</label>
+                    <textarea name="additional_notes" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane me-1"></i>Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Active and Closed Requests Table -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Your Requests</h5>
+        </div>
+        <div class="card-body table-responsive">
+            {% if requests %}
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Issue</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th>Additional Notes</th>
+                            <th>Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in requests %}
+                            <tr>
+                                <td>{{ req.request_id }}</td>
+                                <td>{{ req.issue_description|truncatechars:50 }}</td>
+                                <td>
+                                    {% if req.priority == 'high' %}
+                                        <span class="badge bg-danger">High</span>
+                                    {% elif req.priority == 'medium' %}
+                                        <span class="badge bg-warning text-dark">Medium</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Low</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if req.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif req.status == 'in_progress' %}
+                                        <span class="badge bg-info text-dark">In Progress</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if req.image %}
+                                        <a href="{{ req.image.url }}" target="_blank">
+                                            <img src="{{ req.image.url }}" alt="Issue Image" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ req.additional_notes|default:"-" }}</td>
+                                <td>{{ req.date_created|date:"M d, Y H:i" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">You have no maintenance requests yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

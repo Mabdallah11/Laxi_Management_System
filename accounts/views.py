@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, login, logout
+
+from laxi_management_system import settings
 from .forms import TenantCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -17,83 +19,133 @@ from .models import House
 from .models import Lease, ServiceChargePayment
 from django.shortcuts import render, get_object_or_404
 from .forms import ProfileUpdateForm
+from django.db.models import Q
+from .models import GeneralMaintenance
+from .forms import GeneralMaintenanceForm
+from django.core.mail import send_mail
+from django.utils.timezone import now, timedelta
 
 
 User = get_user_model()
 
-@login_required
-def maintenance_requests(request):
-    # Get all maintenance requests
-    requests = MaintenanceRequest.objects.all()
-    
-    # Filter by status if provided
-    status_filter = request.GET.get('status')
-    if status_filter and status_filter != 'all':
-        requests = requests.filter(status=status_filter)
-    
-    # Filter by priority if provided
-    priority_filter = request.GET.get('priority')
-    if priority_filter and priority_filter != 'all':
-        requests = requests.filter(priority=priority_filter)
-    
-    # Search functionality
-    search_query = request.GET.get('search')
-    if search_query:
-        requests = requests.filter(
-            models.Q(issue_description__icontains=search_query) |
-            models.Q(tenant__username__icontains=search_query) |
-            models.Q(request_id__icontains=search_query)
-        )
-    
-    # Get statistics
-    stats = {
-        'pending': MaintenanceRequest.objects.filter(status='pending').count(),
-        'in_progress': MaintenanceRequest.objects.filter(status='in_progress').count(),
-        'completed': MaintenanceRequest.objects.filter(status='completed').count(),
-        'high_priority': MaintenanceRequest.objects.filter(priority='high', status__in=['pending', 'in_progress']).count(),
-    }
-    
-    # Get all users for the tenant dropdown (you might want to filter this)
-    # For now, getting all users - you can add filtering logic based on your needs
-    tenants = User.objects.all()
-    
-    context = {
-        'requests': requests,
-        'stats': stats,
-        'tenants': tenants,
-        'current_status_filter': status_filter,
-        'current_priority_filter': priority_filter,
-        'search_query': search_query,
-    }
-    
-    return render(request, 'accounts/maintenance_requests.html', context)
 
 @login_required
-@require_http_methods(["POST"])
-def create_maintenance_request(request):
-    try:
-        tenant_id = request.POST.get('tenant')
-        priority = request.POST.get('priority')
+def manager_maintenance_requests(request):
+    if request.method == "POST":
+        req_id = request.POST.get("request_id")
+        new_status = request.POST.get("status")
+        new_image = request.FILES.get("attachment")  # ✅ Get uploaded image
+
+        try:
+            req = MaintenanceRequest.objects.get(id=req_id)
+
+            # Update status
+            if new_status:
+                req.status = new_status
+
+            # Update attachment if provided
+            if new_image:
+                req.attachment = new_image
+
+            req.save()
+            messages.success(request, f"Updated successfully!")
+
+        except MaintenanceRequest.DoesNotExist:
+            messages.error(request, "Request not found.")
+
+    # Fetch all requests
+    requests_qs = MaintenanceRequest.objects.all()
+
+    # ✅ Analytics counts
+    pending_count = requests_qs.filter(status='pending').count()
+    ongoing_count = requests_qs.filter(status='in_progress').count()
+    completed_count = requests_qs.filter(status='completed').count()
+    older_30_days_count = requests_qs.filter(date_created__lte=timezone.now() - timedelta(days=30)).count()
+
+    context = {
+        "requests": requests_qs,
+        "status_choices": MaintenanceRequest.STATUS_CHOICES,
+        "pending_count": pending_count,
+        "ongoing_count": ongoing_count,
+        "completed_count": completed_count,
+        "older_30_days_count": older_30_days_count,
+    }
+    return render(request, "accounts/manager_maintenance_requests.html", context)
+
+
+
+@login_required
+def tenant_create_maintenance_request(request):
+    # Get the tenant's active lease
+    lease = Lease.objects.filter(tenant=request.user).first()
+    requests_qs = MaintenanceRequest.objects.filter(tenant=request.user).order_by('-date_created')
+
+    # Calculate analytics
+    pending_count = requests_qs.filter(status="pending").count()
+    in_progress_count = requests_qs.filter(status="in_progress").count()
+    completed_count = requests_qs.filter(status="completed").count()
+    overdue_cutoff = timezone.now() - timedelta(days=30)
+    overdue_count = requests_qs.filter(
+        status__in=["pending", "in_progress"],
+        date_created__lt=overdue_cutoff
+    ).count()
+
+    if request.method == "POST":
         issue_description = request.POST.get('issue_description')
+        priority = request.POST.get('priority')
         additional_notes = request.POST.get('additional_notes', '')
-        
-        tenant = get_object_or_404(User, id=tenant_id)
-        
-        # Create the maintenance request
-        maintenance_request = MaintenanceRequest.objects.create(
-            tenant=tenant,
-            unit=getattr(tenant, 'unit', 'N/A'),  # Assuming tenant has a unit field
+        attachment = request.FILES.get('attachment')
+
+        unit = lease.house if lease else None
+
+        # Create maintenance request
+        new_request = MaintenanceRequest.objects.create(
+            tenant=request.user,
+            unit=unit,
             issue_description=issue_description,
             priority=priority,
             additional_notes=additional_notes,
+            attachment=attachment
         )
-        
-        messages.success(request, f'Maintenance request {maintenance_request.request_id} created successfully!')
-        return redirect('maintenance_requests')
-        
-    except Exception as e:
-        messages.error(request, f'Error creating maintenance request: {str(e)}')
-        return redirect('maintenance_requests')
+
+        # Send email notification to landlord/manager
+        landlord_email = "benson.otieno@strathmore.edu"  # Replace with dynamic email if needed
+        send_mail(
+            subject=f"New Maintenance Request from {request.user.username}",
+            message=f"""
+A new maintenance request has been submitted:
+
+Tenant: {request.user.username}
+Unit: {unit}
+Issue: {issue_description}
+Priority: {priority}
+Notes: {additional_notes}
+
+Please log in to the system to review the request.
+""",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[landlord_email],
+            fail_silently=True
+        )
+
+        messages.success(request, "Your maintenance request has been submitted successfully!")
+        return redirect('tenant_add_request')  # Refresh the page after submission
+
+    context = {
+        "lease": lease,
+        "requests": requests_qs,
+        "pending_count": pending_count,
+        "in_progress_count": in_progress_count,
+        "completed_count": completed_count,
+        "overdue_count": overdue_count,
+    }
+
+    return render(request, "accounts/tenant_add_request.html", context)
+
+
+
+
+
 
 @login_required
 def update_request_status(request, request_id):
@@ -294,4 +346,72 @@ def manage_tenants(request):
         })
 
     return render(request, "accounts/manage_tenants.html", {"tenant_data": tenant_data})
+
+
+@login_required
+def general_maintenance_manager(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'update_status':
+            rec_id = request.POST.get('rec_id')
+            new_status = request.POST.get('status')
+
+            try:
+                record = GeneralMaintenance.objects.get(id=rec_id)
+                record.status = new_status
+                record.save()
+                messages.success(request, f"✅ Status updated to {new_status.capitalize()} for '{record.title}'")
+            except GeneralMaintenance.DoesNotExist:
+                messages.error(request, "❌ Record not found.")
+
+            return redirect('general_maintenance_manager')
+
+        elif action == 'delete':
+            rec_id = request.POST.get('rec_id')
+            try:
+                record = GeneralMaintenance.objects.get(id=rec_id)
+                record.delete()
+                messages.success(request, f"🗑️ Record '{record.title}' deleted successfully!")
+            except GeneralMaintenance.DoesNotExist:
+                messages.error(request, "❌ Record not found.")
+
+            return redirect('general_maintenance_manager')
+
+        else:
+            form = GeneralMaintenanceForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "✅ New maintenance record added successfully!")
+                return redirect('general_maintenance_manager')
+            else:
+                messages.error(request, "❌ Please correct the errors below.")
+    else:
+        form = GeneralMaintenanceForm()
+
+    # ✅ Fetch records
+    records = GeneralMaintenance.objects.all().order_by('-date')
+
+    # ✅ Analytics
+    ongoing_count = records.filter(status='ongoing').count()
+    completed_count = records.filter(status='completed').count()
+    old_records_count = records.filter(date__lt=now() - timedelta(days=30)).count()
+
+    return render(request, 'accounts/general_maintenance_manager.html', {
+        'form': form,
+        'records': records,
+        'ongoing_count': ongoing_count,
+        'completed_count': completed_count,
+        'old_records_count': old_records_count,
+        'total_count': records.count()
+    })
+
+
+
+# Tenants can only view
+@login_required
+def general_maintenance_tenant(request):
+    records = GeneralMaintenance.objects.all().order_by('-date')  # Show ALL records
+    return render(request, 'accounts/general_maintenance_tenant.html', {'records': records})
+
 

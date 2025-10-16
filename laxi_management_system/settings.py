@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*by=l4y5)d4t6z#bnjzx15$(=j(l_$f5v0fzbg&@0fe1k7=&)$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -131,3 +131,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://kristan-columnarized-ashly.ngrok-free.dev'
+]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "benbarrack0@gmail.com"
+EMAIL_HOST_PASSWORD = "esqg mivc zfcu nbsa"  # Use App Password or Env Var
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

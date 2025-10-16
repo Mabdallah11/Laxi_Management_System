@@ -1,303 +1,122 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance Requests - Laxi Management System</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>Manager - Maintenance Requests</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-building me-2"></i>
-                Laxi Management
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-tools me-1"></i>Maintenance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user-plus me-1"></i>Create Tenant</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
-                    </li>
-                </ul>
+<div class="container mt-4">
+
+    <h2 class="mb-4">Maintenance Requests</h2>
+<p>Total requests in context: {{ requests.count }}</p>
+<p>Debug: {{ requests }}</p>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-warning text-white p-2">
+                Pending: {{ stats.pending }}
             </div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2><i class="fas fa-tools text-primary me-2"></i>Maintenance Requests</h2>
-                        <p class="text-muted mb-0">Manage and track all maintenance requests</p>
-                    </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRequestModal">
-                        <i class="fas fa-plus me-2"></i>Add New Request
-                    </button>
-                </div>
-                
-                <!-- Stats Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-clock fa-2x me-3"></i>
-                                    <div>
-                                        <h5 class="card-title mb-0">5</h5>
-                                        <small>Pending</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card bg-info text-white">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-wrench fa-2x me-3"></i>
-                                    <div>
-                                        <h5 class="card-title mb-0">3</h5>
-                                        <small>In Progress</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card bg-success text-white">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-check fa-2x me-3"></i>
-                                    <div>
-                                        <h5 class="card-title mb-0">12</h5>
-                                        <small>Completed</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card bg-danger text-white">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
-                                    <div>
-                                        <h5 class="card-title mb-0">2</h5>
-                                        <small>Urgent</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Filter and Search -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                    <input type="text" class="form-control" placeholder="Search requests...">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>All Status</option>
-                                    <option>Pending</option>
-                                    <option>In Progress</option>
-                                    <option>Completed</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>All Priority</option>
-                                    <option>High</option>
-                                    <option>Medium</option>
-                                    <option>Low</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>All Units</option>
-                                    <option>A-101</option>
-                                    <option>B-205</option>
-                                    <option>C-310</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-outline-secondary w-100">
-                                    <i class="fas fa-filter me-1"></i>Filter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Requests Table -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-list me-2"></i>All Maintenance Requests</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Request ID</th>
-                                        <th>Tenant</th>
-                                        <th>Unit</th>
-                                        <th>Issue</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
-                                        <th>Date Created</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>#MR001</strong></td>
-                                        <td>John Doe</td>
-                                        <td>A-101</td>
-                                        <td>Leaky faucet in kitchen</td>
-                                        <td><span class="badge bg-warning">Medium</span></td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                        <td>Sep 10, 2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-success me-1" title="Mark Complete">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#MR002</strong></td>
-                                        <td>Jane Smith</td>
-                                        <td>B-205</td>
-                                        <td>AC not working properly</td>
-                                        <td><span class="badge bg-danger">High</span></td>
-                                        <td><span class="badge bg-info">In Progress</span></td>
-                                        <td>Sep 12, 2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-success me-1" title="Mark Complete">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#MR003</strong></td>
-                                        <td>Mike Johnson</td>
-                                        <td>C-310</td>
-                                        <td>Broken light fixture</td>
-                                        <td><span class="badge bg-success">Low</span></td>
-                                        <td><span class="badge bg-success">Completed</span></td>
-                                        <td>Sep 8, 2025</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-secondary me-1" title="Completed" disabled>
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white p-2">
+                In Progress: {{ stats.in_progress }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white p-2">
+                Completed: {{ stats.completed }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white p-2">
+                High Priority: {{ stats.high_priority }}
             </div>
         </div>
     </div>
 
-    <!-- Add New Request Modal -->
-    <div class="modal fade" id="addRequestModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="fas fa-plus me-2"></i>Add New Maintenance Request</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-user me-1"></i>Tenant</label>
-                                <select class="form-select" required>
-                                    <option value="">Select Tenant...</option>
-                                    <option>John Doe - A-101</option>
-                                    <option>Jane Smith - B-205</option>
-                                    <option>Mike Johnson - C-310</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-exclamation-circle me-1"></i>Priority</label>
-                                <select class="form-select" required>
-                                    <option value="">Select Priority...</option>
-                                    <option>High</option>
-                                    <option>Medium</option>
-                                    <option>Low</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label"><i class="fas fa-tools me-1"></i>Issue Description</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe the maintenance issue in detail..." required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label"><i class="fas fa-sticky-note me-1"></i>Additional Notes (Optional)</label>
-                            <textarea class="form-control" rows="2" placeholder="Any additional information or special instructions..."></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>Cancel
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-plus me-1"></i>Create Request
-                    </button>
-                </div>
-            </div>
+    <!-- Filters -->
+    <form method="get" class="row mb-3">
+        <div class="col-md-3">
+            <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ search_query }}">
         </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="all" {% if current_status_filter == "all" %}selected{% endif %}>All Status</option>
+                <option value="pending" {% if current_status_filter == "pending" %}selected{% endif %}>Pending</option>
+                <option value="in_progress" {% if current_status_filter == "in_progress" %}selected{% endif %}>In Progress</option>
+                <option value="completed" {% if current_status_filter == "completed" %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="priority" class="form-select">
+                <option value="all" {% if current_priority_filter == "all" %}selected{% endif %}>All Priority</option>
+                <option value="high" {% if current_priority_filter == "high" %}selected{% endif %}>High</option>
+                <option value="medium" {% if current_priority_filter == "medium" %}selected{% endif %}>Medium</option>
+                <option value="low" {% if current_priority_filter == "low" %}selected{% endif %}>Low</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Tenant</th>
+                    <th>Unit</th>
+                    <th>Issue</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.request_id }}</td>
+        <td>{{ req.tenant.get_full_name|default:req.tenant.username }}</td>
+        <td>{{ req.unit }}</td>
+        <td>{{ req.issue_description }}</td>
+        <td>
+            {% if req.priority == "high" %}
+                <span class="badge bg-danger">High</span>
+            {% elif req.priority == "medium" %}
+                <span class="badge bg-warning">Medium</span>
+            {% else %}
+                <span class="badge bg-success">Low</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if req.status == "pending" %}
+                <span class="badge bg-warning">Pending</span>
+            {% elif req.status == "in_progress" %}
+                <span class="badge bg-info">In Progress</span>
+            {% else %}
+                <span class="badge bg-success">Completed</span>
+            {% endif %}
+        </td>
+        <td>{{ req.date_created|date:"M d, Y" }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" class="text-center">No maintenance requests found.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+
+        </table>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

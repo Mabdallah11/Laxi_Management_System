@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Building Maintenance Updates</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- ✅ Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm px-4">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="{% url 'tenant_dashboard' %}">
+            🏠 Tenant Dashboard
+        </a>
+
+        <div class="d-flex ms-auto">
+            <a href="{% url 'tenant_dashboard' %}" class="btn btn-light btn-sm fw-semibold">
+                ← Back
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Recent Maintenance Updates</h2>
+
+    <div class="row">
+        {% for rec in records %}
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+
+                {% if rec.attachment %}
+                    <img src="{{ rec.attachment.url }}" class="card-img-top" style="max-height:200px; object-fit:cover;">
+                {% else %}
+                    <div class="bg-secondary text-white text-center p-5">No Image</div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ rec.title }}</h5>
+                    <p class="card-text">{{ rec.description }}</p>
+
+                    <p class="mb-1"><strong>Cost:</strong> KES {{ rec.cost }}</p>
+                    <p class="mb-1"><strong>Date:</strong> {{ rec.date }}</p>
+
+                    <span class="badge
+                        {% if rec.status == 'completed' %}bg-success
+                        {% elif rec.status == 'ongoing' %}bg-warning text-dark
+                        {% else %}bg-secondary{% endif %}">
+                        {{ rec.status|capfirst }}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center text-muted">No maintenance history yet.</div>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

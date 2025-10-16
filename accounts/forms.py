@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from .models import User  # your custom user
+from .models import GeneralMaintenance
 
 class TenantCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
@@ -44,3 +45,12 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+
+
+
+
+class GeneralMaintenanceForm(forms.ModelForm):
+    class Meta:
+        model = GeneralMaintenance
+        fields = ['title', 'description', 'cost', 'status', 'attachment']
