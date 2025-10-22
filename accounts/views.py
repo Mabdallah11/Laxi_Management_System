@@ -24,6 +24,16 @@ from .models import GeneralMaintenance
 from .forms import GeneralMaintenanceForm
 from django.core.mail import send_mail
 from django.utils.timezone import now, timedelta
+from .models import PaymentTransaction
+from .utils import (
+    generate_payment_reference, 
+    verify_paystack_transaction, 
+    calculate_outstanding_balance,
+    get_paystack_public_key,
+    get_paystack_secret_key
+)
+from django.http import JsonResponse
+import json
 
 
 User = get_user_model()
@@ -187,7 +197,19 @@ def manager_dashboard(request):
 
 @login_required
 def tenant_dashboard(request):
-    return render(request, 'accounts/tenant_dashboard.html')
+    # Get tenant's lease and calculate outstanding balance
+    lease = Lease.objects.filter(tenant=request.user).first()
+    outstanding_balance = calculate_outstanding_balance(lease) if lease else 0
+    
+    # Get recent payment transactions
+    recent_transactions = PaymentTransaction.objects.filter(tenant=request.user).order_by('-created_at')[:3]
+    
+    context = {
+        'lease': lease,
+        'outstanding_balance': outstanding_balance,
+        'recent_transactions': recent_transactions,
+    }
+    return render(request, 'accounts/tenant_dashboard.html', context)
 
 @login_required
 def maintenance_requests(request):
@@ -275,7 +297,23 @@ def record_payment(request):
         return redirect("record_payment")  # redirect to the same page after saving
 
     leases = Lease.objects.select_related("tenant", "house").all()
-    return render(request, "accounts/record_payment.html", {"leases": leases})
+    
+    # Get recent Paystack transactions
+    recent_paystack_payments = PaymentTransaction.objects.filter(
+        status='successful'
+    ).select_related('tenant', 'lease__house').order_by('-created_at')[:10]
+    
+    # Get pending Paystack transactions
+    pending_paystack_payments = PaymentTransaction.objects.filter(
+        status='pending'
+    ).select_related('tenant', 'lease__house').order_by('-created_at')[:5]
+    
+    context = {
+        "leases": leases,
+        "recent_paystack_payments": recent_paystack_payments,
+        "pending_paystack_payments": pending_paystack_payments,
+    }
+    return render(request, "accounts/record_payment.html", context)
 
 @login_required
 def assign_lease(request, house_id):
@@ -413,5 +451,156 @@ def general_maintenance_manager(request):
 def general_maintenance_tenant(request):
     records = GeneralMaintenance.objects.all().order_by('-date')  # Show ALL records
     return render(request, 'accounts/general_maintenance_tenant.html', {'records': records})
+
+
+# Payment Views
+@login_required
+def initiate_payment(request, lease_id):
+    """Initiate Paystack payment for a lease."""
+    if request.user.role != 'tenant':
+        return JsonResponse({'error': 'Only tenants can make payments'}, status=403)
+    
+    try:
+        lease = Lease.objects.get(id=lease_id, tenant=request.user)
+    except Lease.DoesNotExist:
+        return JsonResponse({'error': 'Lease not found'}, status=404)
+    
+    # Calculate outstanding balance
+    outstanding_balance = calculate_outstanding_balance(lease)
+    
+    if outstanding_balance <= 0:
+        return JsonResponse({'error': 'No outstanding balance to pay'}, status=400)
+    
+    # Generate unique reference
+    reference = generate_payment_reference()
+    
+    # Create payment transaction record
+    transaction = PaymentTransaction.objects.create(
+        reference=reference,
+        lease=lease,
+        tenant=request.user,
+        amount=outstanding_balance,
+        status='pending'
+    )
+    
+    return JsonResponse({
+        'public_key': get_paystack_public_key(),
+        'reference': reference,
+        'amount': float(outstanding_balance) * 100,  # Convert to kobo (Paystack expects amount in kobo)
+        'email': request.user.email,
+        'callback_url': request.build_absolute_uri('/accounts/payment/callback/')
+    })
+
+
+@login_required
+def verify_payment(request, reference):
+    """Verify Paystack payment and update records."""
+    try:
+        transaction = PaymentTransaction.objects.get(reference=reference, tenant=request.user)
+    except PaymentTransaction.DoesNotExist:
+        return JsonResponse({'error': 'Transaction not found'}, status=404)
+    
+    # Verify with Paystack API
+    secret_key = get_paystack_secret_key()
+    if not secret_key:
+        return JsonResponse({'error': 'Paystack configuration error'}, status=500)
+    
+    paystack_response = verify_paystack_transaction(reference, secret_key)
+    
+    if not paystack_response or paystack_response.get('status') != True:
+        transaction.status = 'failed'
+        transaction.paystack_response = paystack_response
+        transaction.save()
+        return JsonResponse({'error': 'Payment verification failed'}, status=400)
+    
+    # Check if payment was successful
+    data = paystack_response.get('data', {})
+    if data.get('status') == 'success':
+        # Update transaction status
+        transaction.status = 'successful'
+        transaction.paystack_response = paystack_response
+        transaction.save()
+        
+        # Create ServiceChargePayment record
+        ServiceChargePayment.objects.create(
+            lease=transaction.lease,
+            amount=transaction.amount,
+            payment_date=timezone.now()
+        )
+        
+        # Send email notification to manager
+        try:
+            manager_email = "benson.otieno@strathmore.edu"  # Replace with dynamic email
+            send_mail(
+                subject=f"Payment Received - {transaction.tenant.username}",
+                message=f"""
+A payment has been successfully processed:
+
+Tenant: {transaction.tenant.username}
+Amount: {transaction.amount}
+Transaction Reference: {reference}
+Payment Date: {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+Please log in to the system to view the payment details.
+""",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[manager_email],
+                fail_silently=True
+            )
+        except Exception as e:
+            print(f"Email notification failed: {e}")
+        
+        return JsonResponse({'success': True, 'message': 'Payment verified successfully'})
+    else:
+        transaction.status = 'failed'
+        transaction.paystack_response = paystack_response
+        transaction.save()
+        return JsonResponse({'error': 'Payment was not successful'}, status=400)
+
+
+def payment_callback(request):
+    """Handle Paystack redirect after payment."""
+    reference = request.GET.get('reference')
+    status = request.GET.get('status')
+    
+    if not reference:
+        return render(request, 'accounts/payment_callback.html', {
+            'success': False,
+            'message': 'No transaction reference provided'
+        })
+    
+    try:
+        transaction = PaymentTransaction.objects.get(reference=reference)
+        if status == 'success':
+            return render(request, 'accounts/payment_callback.html', {
+                'success': True,
+                'message': 'Payment completed successfully!',
+                'reference': reference,
+                'amount': transaction.amount
+            })
+        else:
+            return render(request, 'accounts/payment_callback.html', {
+                'success': False,
+                'message': 'Payment was not successful',
+                'reference': reference
+            })
+    except PaymentTransaction.DoesNotExist:
+        return render(request, 'accounts/payment_callback.html', {
+            'success': False,
+            'message': 'Transaction not found'
+        })
+
+
+@login_required
+def payment_history(request):
+    """Show tenant's payment transaction history."""
+    if request.user.role != 'tenant':
+        return redirect('home')
+    
+    transactions = PaymentTransaction.objects.filter(tenant=request.user).order_by('-created_at')
+    
+    return render(request, 'accounts/payment_history.html', {
+        'transactions': transactions
+    })
 
 

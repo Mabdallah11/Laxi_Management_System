@@ -37,6 +37,12 @@ urlpatterns = [
 
     # --- Profile ---
     path('edit-profile/', views.edit_profile, name='edit_profile'),
+
+    # --- Payments ---
+    path('payment/initiate/<int:lease_id>/', views.initiate_payment, name='initiate_payment'),
+    path('payment/verify/<str:reference>/', views.verify_payment, name='verify_payment'),
+    path('payment/callback/', views.payment_callback, name='payment_callback'),
+    path('payment/history/', views.payment_history, name='payment_history'),
 ]
 
 if settings.DEBUG:

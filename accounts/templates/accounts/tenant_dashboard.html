@@ -61,15 +61,23 @@
 
         <div class="row g-4 mt-3">
 
-    <!-- Card 1: Rent Status -->
+    <!-- Card 1: Service Charge Status -->
     <div class="col-md-3">
-        <a href="#" class="text-decoration-none text-dark">
-            <div class="card p-3">
-                <h5>Rent Status</h5>
-                <p>Current Month: <strong>Unpaid</strong></p>
-                <span class="btn btn-sm btn-primary">Pay Now</span>
-            </div>
-        </a>
+        <div class="card p-3">
+            <h5>Service Charge Status</h5>
+            {% if lease %}
+                {% if outstanding_balance > 0 %}
+                    <p>Outstanding: <strong class="text-danger">₦{{ outstanding_balance }}</strong></p>
+                    <button class="btn btn-sm btn-primary" onclick="initiatePayment({{ lease.id }})">Pay Now</button>
+                {% else %}
+                    <p>Status: <strong class="text-success">Paid Up</strong></p>
+                    <span class="btn btn-sm btn-success disabled">All Paid</span>
+                {% endif %}
+            {% else %}
+                <p>No lease assigned</p>
+                <span class="btn btn-sm btn-secondary disabled">N/A</span>
+            {% endif %}
+        </div>
     </div>
 
     <!-- Card 2: Invoices -->
@@ -109,5 +117,113 @@
 </div>
 
     </div>
+
+    <!-- Paystack Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Complete Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="paymentLoading" class="d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Processing payment...</p>
+                    </div>
+                    <div id="paymentForm" class="d-none">
+                        <p>Click the button below to complete your payment securely with Paystack.</p>
+                        <button id="paystackButton" class="btn btn-primary btn-lg">Pay with Paystack</button>
+                    </div>
+                    <div id="paymentError" class="d-none">
+                        <div class="alert alert-danger">
+                            <p id="errorMessage"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Paystack Inline JS -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        let paymentData = null;
+
+        function initiatePayment(leaseId) {
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            modal.show();
+            
+            // Show loading state
+            document.getElementById('paymentLoading').classList.remove('d-none');
+            document.getElementById('paymentForm').classList.add('d-none');
+            document.getElementById('paymentError').classList.add('d-none');
+            
+            // Fetch payment data
+            fetch(`/accounts/payment/initiate/${leaseId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    paymentData = data;
+                    showPaymentForm();
+                })
+                .catch(error => {
+                    showError('Failed to initiate payment. Please try again.');
+                });
+        }
+
+        function showPaymentForm() {
+            document.getElementById('paymentLoading').classList.add('d-none');
+            document.getElementById('paymentForm').classList.remove('d-none');
+            
+            // Set up Paystack button
+            document.getElementById('paystackButton').onclick = function() {
+                const handler = PaystackPop.setup({
+                    key: paymentData.public_key,
+                    email: paymentData.email,
+                    amount: paymentData.amount,
+                    ref: paymentData.reference,
+                    callback: function(response) {
+                        // Verify payment
+                        verifyPayment(paymentData.reference);
+                    },
+                    onClose: function() {
+                        alert('Payment cancelled');
+                    }
+                });
+                handler.openIframe();
+            };
+        }
+
+        function verifyPayment(reference) {
+            fetch(`/accounts/payment/verify/${reference}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Payment successful! You will be redirected to your service charges page.');
+                        window.location.href = '/accounts/tenant/service-charges/';
+                    } else {
+                        showError(data.error || 'Payment verification failed');
+                    }
+                })
+                .catch(error => {
+                    showError('Failed to verify payment. Please contact support.');
+                });
+        }
+
+        function showError(message) {
+            document.getElementById('paymentLoading').classList.add('d-none');
+            document.getElementById('paymentForm').classList.add('d-none');
+            document.getElementById('paymentError').classList.remove('d-none');
+            document.getElementById('errorMessage').textContent = message;
+        }
+    </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+import json
 
 
 class MaintenanceRequest(models.Model):
@@ -96,3 +97,26 @@ class ServiceChargePayment(models.Model):
 
     def __str__(self):
         return f"{self.lease.tenant.username} paid {self.amount} on {self.payment_date.date()}"
+
+
+class PaymentTransaction(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('successful', 'Successful'),
+        ('failed', 'Failed'),
+    ]
+    
+    reference = models.CharField(max_length=100, unique=True)
+    lease = models.ForeignKey(Lease, on_delete=models.CASCADE, related_name="payment_transactions")
+    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="payment_transactions")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    paystack_response = models.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.reference} - {self.tenant.username} - {self.amount} ({self.status})"
+
+    class Meta:
+        ordering = ['-created_at']

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,6 +143,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CSRF_TRUSTED_ORIGINS = [
     'https://kristan-columnarized-ashly.ngrok-free.dev'
 ]
+
+# Paystack Configuration (MUST be in environment variables)
+PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY', '')
+PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', '')
+
+# Validate that keys are set
+if not PAYSTACK_PUBLIC_KEY or not PAYSTACK_SECRET_KEY:
+    import warnings
+    warnings.warn("Paystack API keys not set in environment variables!")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
