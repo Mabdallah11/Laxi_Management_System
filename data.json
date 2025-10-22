@@ -1,0 +1,1188 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-10-01T12:51:16.366Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "benson ÔåÆ House 101",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-10-01T14:21:56.221Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "barrack ÔåÆ House 102",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 4,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 4,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 4,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 4,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 5,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 5,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 5,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 5,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 6,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 6,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 6,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 6,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add maintenance request",
+    "content_type": 7,
+    "codename": "add_maintenancerequest"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change maintenance request",
+    "content_type": 7,
+    "codename": "change_maintenancerequest"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete maintenance request",
+    "content_type": 7,
+    "codename": "delete_maintenancerequest"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view maintenance request",
+    "content_type": 7,
+    "codename": "view_maintenancerequest"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add house",
+    "content_type": 8,
+    "codename": "add_house"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change house",
+    "content_type": 8,
+    "codename": "change_house"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete house",
+    "content_type": 8,
+    "codename": "delete_house"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view house",
+    "content_type": 8,
+    "codename": "view_house"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add lease",
+    "content_type": 9,
+    "codename": "add_lease"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change lease",
+    "content_type": 9,
+    "codename": "change_lease"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete lease",
+    "content_type": 9,
+    "codename": "delete_lease"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view lease",
+    "content_type": 9,
+    "codename": "view_lease"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add service charge payment",
+    "content_type": 10,
+    "codename": "add_servicechargepayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change service charge payment",
+    "content_type": 10,
+    "codename": "change_servicechargepayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete service charge payment",
+    "content_type": 10,
+    "codename": "delete_servicechargepayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view service charge payment",
+    "content_type": 10,
+    "codename": "view_servicechargepayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add general maintenance",
+    "content_type": 11,
+    "codename": "add_generalmaintenance"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change general maintenance",
+    "content_type": 11,
+    "codename": "change_generalmaintenance"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete general maintenance",
+    "content_type": 11,
+    "codename": "delete_generalmaintenance"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view general maintenance",
+    "content_type": 11,
+    "codename": "view_generalmaintenance"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "accounts",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "accounts",
+    "model": "maintenancerequest"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "accounts",
+    "model": "house"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "accounts",
+    "model": "lease"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "accounts",
+    "model": "servicechargepayment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "accounts",
+    "model": "generalmaintenance"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "10h0akv9gybnml4yqujgrqhws7zpw96d",
+  "fields": {
+    "session_data": "e30:1uwzeR:7o1R0DjFAmSN2UpPUpBtd4EeJPERHIgtYttMacr3XO8",
+    "expire_date": "2025-09-26T09:01:03.107Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "2rre4xm5vzmski9qwou1uilf51blxe0h",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v97LX:K3FKF0Ioo1CJ4zTqiNU5Imhqrm4aDBuOii_kqvznKZ0",
+    "expire_date": "2025-10-29T19:39:39.198Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "2vn1om38ofy0p1kznm6n44t6rb3eaadw",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1v9JIx:LWN7RI7JKz-sfceswjxDjIp894Sgp9lMR8kgbvsj9lk",
+    "expire_date": "2025-10-30T08:25:47.507Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "383rk5v9fy89m7g4w8y0k6jo749wchv9",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1v8ilF:z-HfRb4UGSHZvqc24hOrW0ZK_ev5Jj7AjJpUJYMRyQ4",
+    "expire_date": "2025-10-28T17:24:33.121Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "83d7orhsvklrrd4dcbcbe74ng7kga4c3",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v96oh:ttUek0MKGIj56bld4x2-nGErhuuiL5_BUdrdqro1nC0",
+    "expire_date": "2025-10-29T19:05:43.226Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "exei7rhhx12ntixrmqokqisyzx6ii01z",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v9K2w:q-qAT0nZv72GX_IZT_C7kfcfk3UZeluuDlfmH1Owbk0",
+    "expire_date": "2025-10-30T09:13:18.151Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "f63inwrja7b3zkvqjovvetnovj6xxnp4",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSHlVYpL934DuQ-QqoGktCvjv2uTLnR7Zua8RIRtLXHraYkzi7NQ4vS7IdAj1R3wHeqtSWp1XWaUuyIP2uW1cXpeDvfvoEAv3zpkHJhBB-IJjTbWWeU8h5EzBWdwyta4QMTeoKU0KjJZg1dWAXnnB_H-APO8OAc:1v1Sa4:-mR_SzHyqx50nhaZDOY0irIOsURHwmGQ5v8W4m6LNoU",
+    "expire_date": "2025-10-08T16:43:00.903Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "hmt1cwmzu0wqxo5516kgsgv2452u5sx6",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v9I3z:5cRnSXDD3hniJW0Zyc_yLq73dR95usi3-yaAsReGifI",
+    "expire_date": "2025-10-30T07:06:15.054Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "lqzt4nakxzn4cig6nb7j9emclza3k40x",
+  "fields": {
+    "session_data": "e30:1uwyzK:MMYz1wlvvm2WJovoaFPJU7qLblUVnSsNz-rl2PFBHSw",
+    "expire_date": "2025-09-26T08:18:34.139Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mj9ef5m7mby2m8apqt9if51nucxt30q2",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1uxUih:prpf_p9yz9B9itHDIxW_mGEbSj-jjPnwcYw-a2Aj_18",
+    "expire_date": "2025-09-27T18:11:31.092Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "nbl1jvt5rak0xu5pu4644fmzvl53haxb",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1v9JPa:dDR9usWtplfyWDZb6JUzajnvmj-BRnhDu8GXQS9ezXA",
+    "expire_date": "2025-10-30T08:32:38.998Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "oc5htdsmztjimeamm8kl4gewps188n76",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1v95vI:ck7UGcTNN9V_gTdRoL9zGZaDTN8bBhBRApOYJuWqsjE",
+    "expire_date": "2025-10-29T18:08:28.467Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "piparh3creoij9kaslt28ih8gmvz6ibd",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1v96pw:eB5GAF30jtSQ3O-9Ox9on-KaAgFJEcg4rfjhs2xHoBg",
+    "expire_date": "2025-10-29T19:07:00.333Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uwj0pc71ufqqhiu1bei7azzn00memmzy",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v9KKI:ooNVqvhs4lx8SNlbeqAbznQXAeLMK9dyXEfhM4brzVo",
+    "expire_date": "2025-10-30T09:31:14.295Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xj9xyetybvkfxo2jpggzdvlax86l96mu",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v9K2u:o2MIgsyp4nDqDGQUjiErYTQlc4FuLwcBRT0ne1OesqM",
+    "expire_date": "2025-10-30T09:13:16.409Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xkcy0pd5ihiiw2h5u9e3s4koj68ui77e",
+  "fields": {
+    "session_data": "e30:1uwz94:BC-nbfwyyJsA1VxrEzMud-Y2NtqyQH1hBFX3SjcYbxM",
+    "expire_date": "2025-09-26T08:28:38.065Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "z44pjpvdiiqidmmwgmxitq9l5mqio0h2",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe_StWlmLMMUl-45Q9MyU4saSCisjHdXEha6_e-9_zIhbmsJW9UljGIuxpnT75bi8NBpB3KP0222wzyty5jsrtiDVtvPos_r4f4dlFjLt_aCjBm0E6UWMDMhoYfUCCPDOau0AzWa2BEpkwOAxqdOwTlRz2LeH8erNxc:1uxLUh:2l4bFkLNjQGWwbJFK4ka7RoGgcXzfwD3c7Obf5vLQtI",
+    "expire_date": "2025-09-27T08:20:27.373Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zjd5rh55izbwqxktmbjrurfazt7aligq",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSE8pgO4dO83kCkMUjU0Ke3K-O_apAvd3nPOfYlI21rj1nmJUxZngeL0u42UHtx2kO_UbrNMc1uXaZS7Ig_a5XXO_Lwc7t9BpV6_dQHAAXxyDiyqHHQoFp3OeUjkKHjrmDGgtkkXo4LR6MCDIcUJgNiL9we6GTbQ:1v9GRr:4_4-CCO5og_G64UfvqTYiIizwUuAEuWoaWDdKZM1yMQ",
+    "expire_date": "2025-10-30T05:22:47.656Z"
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 1,
+  "fields": {
+    "request_id": "MR001",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "door is broken",
+    "priority": "medium",
+    "status": "pending",
+    "additional_notes": "please help",
+    "attachment": "",
+    "date_created": "2025-10-02T07:27:24.316Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 2,
+  "fields": {
+    "request_id": "MR002",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "door is broken",
+    "priority": "medium",
+    "status": "in_progress",
+    "additional_notes": "please help",
+    "attachment": "",
+    "date_created": "2025-10-02T07:44:12.635Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 3,
+  "fields": {
+    "request_id": "MR003",
+    "tenant": 6,
+    "unit": "102",
+    "issue_description": "broken sink",
+    "priority": "high",
+    "status": "completed",
+    "additional_notes": "its leaking everywhere",
+    "attachment": "",
+    "date_created": "2025-10-02T07:57:55.313Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 4,
+  "fields": {
+    "request_id": "MR004",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "Sink broked",
+    "priority": "high",
+    "status": "pending",
+    "additional_notes": "It's leaking a lot of water",
+    "attachment": "maintenance_images/17605952817335566486910286993841.jpg",
+    "date_created": "2025-10-16T06:15:04.078Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 5,
+  "fields": {
+    "request_id": "MR005",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "Sink broked",
+    "priority": "high",
+    "status": "pending",
+    "additional_notes": "It's leaking a lot of water",
+    "attachment": "maintenance_images/17605952817335566486910286993841_UTrPoFG.jpg",
+    "date_created": "2025-10-16T06:21:30.271Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 6,
+  "fields": {
+    "request_id": "MR006",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "Broken door",
+    "priority": "medium",
+    "status": "pending",
+    "additional_notes": "Door knob not working ",
+    "attachment": "maintenance_images/17605983916294945229912583345322.jpg",
+    "date_created": "2025-10-16T07:06:53.412Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.maintenancerequest",
+  "pk": 7,
+  "fields": {
+    "request_id": "MR007",
+    "tenant": 6,
+    "unit": "House 102 (Floor 1)",
+    "issue_description": "Broken window",
+    "priority": "medium",
+    "status": "pending",
+    "additional_notes": "Toilet window",
+    "attachment": "maintenance_images/17605994592552613752439997274867.jpg",
+    "date_created": "2025-10-16T07:24:55.596Z",
+    "date_completed": null,
+    "assigned_to": ""
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$kkNUTUeOpQ4mipRblMiDKE$RitgdohQ8SD4NZ8lepqe4Z3QT3X8nBJRdTyfXZL9b0U=",
+    "last_login": "2025-10-02T09:01:49.757Z",
+    "is_superuser": true,
+    "username": "user",
+    "first_name": "",
+    "last_name": "",
+    "email": "mahmood.abdallah@strathmore.edu",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-12T07:19:35.144Z",
+    "role": "tenant",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$bi1ejhjDJBQLVCbTCQgyni$/JhcTwejdsLn9ERP+LDaVTyc/bYg82+2Zej3K8L7Fyo=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "David",
+    "first_name": "",
+    "last_name": "",
+    "email": "David@laxi.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-12T08:09:37.838Z",
+    "role": "tenant",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tYLrjVHlhtx7m3bLP8E8bA$AGURYWs1YbhgBGNFcBPnW/TpN0jWybiY4D+bPSz4/rY=",
+    "last_login": "2025-10-16T08:50:00.246Z",
+    "is_superuser": false,
+    "username": "manager1",
+    "first_name": "",
+    "last_name": "",
+    "email": "manager1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-12T08:15:46.517Z",
+    "role": "manager",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$9GEs67TDCrn8srKogtToOq$HdGs++XVVwDEXae7aNFYSWMdfVlo5icD1V/8Q+BxQzg=",
+    "last_login": "2025-09-24T14:53:44.287Z",
+    "is_superuser": false,
+    "username": "Catherine",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-17T18:04:19.429Z",
+    "role": "tenant",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$bTnOcPROysAghkXSmUTFu6$cpMcoRBRtSC6Gzk3HJycTzVhscBlCQY100kFYHV/32A=",
+    "last_login": "2025-10-01T13:50:08.803Z",
+    "is_superuser": false,
+    "username": "benson1",
+    "first_name": "",
+    "last_name": "",
+    "email": "benson.otieno@strathmore.edu",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-01T12:48:46.487Z",
+    "role": "tenant",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$CM1gmibTtnJpVW9sCN14WQ$206gwTscL2Ba945uvdy74T0zLAPC4ktGud6/HZt9XmU=",
+    "last_login": "2025-10-16T09:31:14.258Z",
+    "is_superuser": false,
+    "username": "barrack",
+    "first_name": "",
+    "last_name": "",
+    "email": "bensonbarrack1@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-01T13:55:35.592Z",
+    "role": "tenant",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 1,
+  "fields": {
+    "number": "B1",
+    "floor": -1,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 2,
+  "fields": {
+    "number": "B2",
+    "floor": -1,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 3,
+  "fields": {
+    "number": "101",
+    "floor": 1,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 4,
+  "fields": {
+    "number": "102",
+    "floor": 1,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 5,
+  "fields": {
+    "number": "103",
+    "floor": 1,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 6,
+  "fields": {
+    "number": "201",
+    "floor": 2,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 7,
+  "fields": {
+    "number": "202",
+    "floor": 2,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 8,
+  "fields": {
+    "number": "203",
+    "floor": 2,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 9,
+  "fields": {
+    "number": "301",
+    "floor": 3,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 10,
+  "fields": {
+    "number": "302",
+    "floor": 3,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 11,
+  "fields": {
+    "number": "303",
+    "floor": 3,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 12,
+  "fields": {
+    "number": "401",
+    "floor": 4,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 13,
+  "fields": {
+    "number": "402",
+    "floor": 4,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 14,
+  "fields": {
+    "number": "403",
+    "floor": 4,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 15,
+  "fields": {
+    "number": "501",
+    "floor": 5,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 16,
+  "fields": {
+    "number": "502",
+    "floor": 5,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 17,
+  "fields": {
+    "number": "503",
+    "floor": 5,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 18,
+  "fields": {
+    "number": "601",
+    "floor": 6,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 19,
+  "fields": {
+    "number": "602",
+    "floor": 6,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 20,
+  "fields": {
+    "number": "603",
+    "floor": 6,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 21,
+  "fields": {
+    "number": "701",
+    "floor": 7,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 22,
+  "fields": {
+    "number": "702",
+    "floor": 7,
+    "description": null
+  }
+},
+{
+  "model": "accounts.house",
+  "pk": 23,
+  "fields": {
+    "number": "703",
+    "floor": 7,
+    "description": null
+  }
+},
+{
+  "model": "accounts.lease",
+  "pk": 1,
+  "fields": {
+    "tenant": 5,
+    "house": 3,
+    "start_date": "2025-10-01",
+    "service_charge": "6000.00"
+  }
+},
+{
+  "model": "accounts.lease",
+  "pk": 2,
+  "fields": {
+    "tenant": 6,
+    "house": 4,
+    "start_date": "2025-10-01",
+    "service_charge": "7000.00"
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 1,
+  "fields": {
+    "title": "bulb fix",
+    "description": "staircase bulb broken",
+    "cost": "6000.00",
+    "date": "2025-10-14",
+    "status": "ongoing",
+    "attachment": ""
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 2,
+  "fields": {
+    "title": "lift repair",
+    "description": "the lift hass to be repaired",
+    "cost": "13000.00",
+    "date": "2025-10-14",
+    "status": "ongoing",
+    "attachment": ""
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 3,
+  "fields": {
+    "title": "broken tile",
+    "description": "stair tile broken",
+    "cost": "4000.00",
+    "date": "2025-10-14",
+    "status": "completed",
+    "attachment": "maintenance_docs/383b21fc5faad8a9b91d3752531e438e.jpg"
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 4,
+  "fields": {
+    "title": "repalcing light",
+    "description": "light hads gone out",
+    "cost": "64.00",
+    "date": "2025-10-14",
+    "status": "ongoing",
+    "attachment": "maintenance_docs/383b21fc5faad8a9b91d3752531e438e_t4bpH38.jpg"
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 5,
+  "fields": {
+    "title": "generator",
+    "description": "generator broken",
+    "cost": "300000.00",
+    "date": "2025-10-14",
+    "status": "ongoing",
+    "attachment": ""
+  }
+},
+{
+  "model": "accounts.generalmaintenance",
+  "pk": 7,
+  "fields": {
+    "title": "Water faucet",
+    "description": "It's broken",
+    "cost": "6000.00",
+    "date": "2025-10-15",
+    "status": "ongoing",
+    "attachment": "maintenance_docs/17605555594467180316704709604819.jpg"
+  }
+}
+]

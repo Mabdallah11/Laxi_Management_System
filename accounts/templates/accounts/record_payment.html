@@ -1,26 +1,27 @@
-
-
-{% block title %}Record Payment{% endblock %}
-
+ {% block title %}Record Payment{% endblock %}
+ <a href="{% url 'manager_dashboard' %}" class="btn btn-outline-light btn-sm">
+            <i class="fas fa-arrow-left"></i> Dashboard
+        </a>
 <style>
     /* Page background */
     body {
         background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Improved typography */
     }
-
     /* Card styling */
     .payment-card {
         border: none;
         border-radius: 20px;
         background: #ffffff;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        transition: transform 0.2s ease-in-out;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for depth */
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        max-width: 800px; /* Limit width for better readability on large screens */
+        margin: 0 auto; /* Center the card */
     }
-
     .payment-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
     }
-
     /* Header styling */
     .payment-header {
         background: linear-gradient(90deg, #007bff, #00c6ff);
@@ -31,27 +32,32 @@
         font-weight: bold;
         font-size: 1.5rem;
         letter-spacing: 1px;
+        display: flex; /* Flex for better alignment */
+        align-items: center;
+        justify-content: center;
+    }
+    .payment-header i {
+        margin-right: 10px; /* Space for icon */
+        font-size: 1.8rem;
     }
 
-    /* Labels */
+ /* Labels */
     .form-label {
         font-weight: 600;
         color: #333;
+        display: block; /* Ensure block-level for accessibility */
     }
-
     /* Inputs */
     .form-control, .form-select {
         border-radius: 10px;
         border: 1px solid #007bff33;
         box-shadow: none;
-        transition: 0.3s;
+        transition: border-color 0.3s, box-shadow 0.3s;
     }
-
     .form-control:focus, .form-select:focus {
         border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.25); /* Softer focus glow */
     }
-
     /* Button */
     .btn-custom {
         background: linear-gradient(90deg, #28a745, #4cd964);
@@ -60,54 +66,87 @@
         border-radius: 12px;
         padding: 12px;
         font-size: 1.1rem;
-        transition: 0.3s;
+        transition: background 0.3s, transform 0.3s;
         border: none;
+        width: 100%; /* Full width for better mobile usability */
     }
-
     .btn-custom:hover {
         background: linear-gradient(90deg, #218838, #3cb371);
         transform: scale(1.02);
     }
+    /* Form group styling for better spacing */
+    .form-group {
+        position: relative; /* For icon positioning */
+    }
+ .form-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #007bff;
+        opacity: 0.7;
+    }
+    .form-control, .form-select {
+        padding-left: 40px; /* Space for icons */
+    }
+    /* Validation feedback */
+    .is-invalid {
+        border-color: #dc3545;
+    }
+    .invalid-feedback {
+        display: block;
+        color: #dc3545;
+        font-size: 0.9rem;
+    }
 </style>
-
+</style>
 <div class="container mt-5">
     <div class="payment-card">
         <div class="payment-header">
-            💳 Record Service Charge Payment
+            <i class="fas fa-credit-card"></i> <!-- Font Awesome icon for credit card -->
+            Record Service Charge Payment
         </div>
-
         <div class="p-4">
-            <form method="POST" class="row g-4">
+            <form method="POST" class="row g-4 needs-validation" novalidate>
                 {% csrf_token %}
-
+                <!-- Instructional text -->
+                <div class="col-12 text-center mb-4">
+                    <p class="lead" style="color: #555;">Please select a lease and enter the payment details below.</p>
+                </div>
                 <!-- Lease Selection -->
-                <div class="col-md-6">
-                    <label class="form-label">Select Lease:</label>
-                    <select name="lease" class="form-select" required>
+                <div class="col-md-6 form-group">
+                    <label class="form-label" for="leaseSelect">Select Lease:</label>
+                    <i class="fas fa-home"></i> <!-- Icon for lease -->
+                    <select id="leaseSelect" name="lease" class="form-select" required aria-describedby="leaseHelp">
                         {% for lease in leases %}
                         <option value="{{ lease.id }}">
                             {{ lease.tenant.username }} → House {{ lease.house.number }}
                         </option>
                         {% endfor %}
                     </select>
+                    <div id="leaseHelp" class="form-text">Choose the lease for this payment.</div> <!-- Helper text -->
+                    <div class="invalid-feedback">Please select a lease.</div>
                 </div>
-
                 <!-- Amount -->
-                <div class="col-md-6">
-                    <label class="form-label">Amount (KES):</label>
-                    <input type="number" step="0.01" name="amount" 
-                           class="form-control" placeholder="Enter amount" required>
+                <div class="col-md-6 form-group">
+                    <label class="form-label" for="amountInput">Amount (KES):</label>
+                    <i class="fas fa-coins"></i> <!-- Icon for amount -->
+                    <input type="number" step="0.01" id="amountInput" name="amount" 
+                           class="form-control" placeholder="Enter amount" required min="0.01" aria-describedby="amountHelp">
+                    <div id="amountHelp" class="form-text">Enter the amount paid (e.g., 500.00).</div>
+                    <div class="invalid-feedback">Please enter a valid amount greater than 0.</div>
                 </div>
-
-                <!-- Payment Date -->
-                <div class="col-md-6">
-                    <label class="form-label">Payment Date:</label>
-                    <input type="date" name="payment_date" class="form-control">
+  <!-- Payment Date -->
+                <div class="col-md-6 form-group">
+                    <label class="form-label" for="paymentDateInput">Payment Date:</label>
+                    <i class="fas fa-calendar-alt"></i> <!-- Icon for date -->
+                    <input type="date" id="paymentDateInput" name="payment_date" class="form-control" required value="{{ today|date:'Y-m-d' }}" aria-describedby="dateHelp">
+                    <div id="dateHelp" class="form-text">Select the date of payment (defaults to today).</div>
+                    <div class="invalid-feedback">Please select a payment date.</div>
                 </div>
-
                 <!-- Submit Button -->
                 <div class="col-12">
-                    <button type="submit" class="btn btn-custom w-100">
+                    <button type="submit" class="btn btn-custom w-100" onclick="return confirmSubmission();">
                         Record Payment
                     </button>
                 </div>
@@ -115,3 +154,24 @@
         </div>
     </div>
 </div>
+<script>
+    // Client-side validation and confirmation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+        function confirmSubmission() {
+            return confirm('Are you sure you want to record this payment?');
+        }
+    })();
+</script>
