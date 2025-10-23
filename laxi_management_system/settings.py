@@ -10,9 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+
 from pathlib import Path
 import os
 from decouple import config
+import dj_database_url
+
+SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -161,3 +170,16 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "benbarrack0@gmail.com"
 EMAIL_HOST_PASSWORD = "esqg mivc zfcu nbsa"  # Use App Password or Env Var
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+ALLOWED_HOSTS = ['.onrender.com', 'localhost']
+
+
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
