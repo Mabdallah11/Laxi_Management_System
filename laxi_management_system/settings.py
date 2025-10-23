@@ -17,12 +17,6 @@ import os
 from decouple import config
 import dj_database_url
 
-SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
-DEBUG = config('DEBUG', default=False, cast=bool)
-
-
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*by=l4y5)d4t6z#bnjzx15$(=j(l_$f5v0fzbg&@0fe1k7=&)$'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-*by=l4y5)d4t6z#bnjzx15$(=j(l_$f5v0fzbg&@0fe1k7=&)$')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -65,8 +59,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'laxi_management_system.urls'
 
-import os 
-
 
 TEMPLATES = [
     {
@@ -93,10 +85,9 @@ WSGI_APPLICATION = 'laxi_management_system.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'))
+    )
 }
 
 
@@ -134,18 +125,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
-import os
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = 'accounts.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -170,16 +160,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "benbarrack0@gmail.com"
 EMAIL_HOST_PASSWORD = "esqg mivc zfcu nbsa"  # Use App Password or Env Var
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
-
-ALLOWED_HOSTS = ['.onrender.com', 'localhost']
-
-
-DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
-}
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
