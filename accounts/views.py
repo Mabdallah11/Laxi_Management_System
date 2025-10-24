@@ -41,12 +41,16 @@ from .utils import (
 
 
 def load_local_data(request):
-    fixture_path = os.path.join(settings.BASE_DIR, 'data.json')  # full path
-    call_command('loaddata', fixture_path)
-    return HttpResponse("Local database loaded successfully!")
-
-User = get_user_model()
-
+    """
+    Temporary view to load the fixture into Render database.
+    Only works inside Render's environment.
+    """
+    try:
+        fixture_path = os.path.join(settings.BASE_DIR, 'data.json')
+        call_command('loaddata', fixture_path)
+        return HttpResponse("Data loaded successfully!")
+    except Exception as e:
+        return HttpResponse(f"Error loading data: {str(e)}")
 
 @login_required
 def manager_maintenance_requests(request):
