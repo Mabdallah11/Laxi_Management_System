@@ -84,14 +84,17 @@ WSGI_APPLICATION = 'laxi_management_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3')),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
-
+if os.environ.get("RENDER"):
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -163,3 +166,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "benbarrack0@gmail.com"
 EMAIL_HOST_PASSWORD = "esqg mivc zfcu nbsa"  # Use App Password or Env Var
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'

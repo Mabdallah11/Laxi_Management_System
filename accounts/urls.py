@@ -8,6 +8,8 @@ from django.urls import path
 urlpatterns = [
     # --- Home & Auth ---
     path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
+    path('load-data/', views.load_local_data, name='load-data'),
     path('login/', views.login_view, name='login'),
     path('login/manager/', views.manager_login, name='manager_login'),
     path('login/tenant/', views.tenant_login, name='tenant_login'),
@@ -50,8 +52,3 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
  
-
-urlpatterns = [
-    # ... your existing URLs
-    path('load-data/', views.load_local_data, name='load-data'),
-]

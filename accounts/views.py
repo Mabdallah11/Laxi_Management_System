@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, login, logout
-
 from laxi_management_system import settings
 from .forms import TenantCreationForm
 from django.contrib.auth.decorators import login_required
@@ -30,6 +29,7 @@ import json
 from django.http import HttpResponse
 from django.core.management import call_command
 import os
+from accounts import views
 
 from .utils import (
     generate_payment_reference, 
@@ -39,6 +39,16 @@ from .utils import (
     get_paystack_secret_key
 )
 
+
+def home(request):
+    return render(request, 'accounts/home.html')
+
+def login_view(request):
+    return render(request, 'accounts/login.html')  # 👈 path to your login template
+
+def load_local_data(request):
+    # your existing function for loading data
+    pass
 
 def load_local_data(request):
     """
