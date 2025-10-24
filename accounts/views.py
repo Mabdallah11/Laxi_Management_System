@@ -40,8 +40,8 @@ from .utils import (
 
 
 def load_local_data(request):
-    # Load the local JSON fixture
-    call_command('loaddata', 'data.json')
+    fixture_path = os.path.join(settings.BASE_DIR, 'data.json')  # full path
+    call_command('loaddata', fixture_path)
     return HttpResponse("Local database loaded successfully!")
 
 User = get_user_model()
