@@ -3,6 +3,7 @@ from . import views
 from .views import tenant_create_maintenance_request
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 
 urlpatterns = [
     # --- Home & Auth ---
@@ -47,3 +48,10 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+ s
+
+urlpatterns = [
+    # ... your existing URLs
+    path('load-data/', views.load_local_data, name='load-data'),
+]

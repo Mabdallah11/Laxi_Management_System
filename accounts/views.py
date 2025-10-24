@@ -25,6 +25,11 @@ from .forms import GeneralMaintenanceForm
 from django.core.mail import send_mail
 from django.utils.timezone import now, timedelta
 from .models import PaymentTransaction
+from django.http import JsonResponse
+import json
+from django.http import HttpResponse
+from django.core.management import call_command
+
 from .utils import (
     generate_payment_reference, 
     verify_paystack_transaction, 
@@ -32,9 +37,12 @@ from .utils import (
     get_paystack_public_key,
     get_paystack_secret_key
 )
-from django.http import JsonResponse
-import json
 
+
+def load_local_data(request):
+    # Load the local JSON fixture
+    call_command('loaddata', 'data.json')
+    return HttpResponse("Local database loaded successfully!")
 
 User = get_user_model()
 
