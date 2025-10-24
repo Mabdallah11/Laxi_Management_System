@@ -1,2 +1,2 @@
-web: gunicorn laxi_management_System.wsgi
+web: gunicorn laxi_management_system.wsgi:application
 
